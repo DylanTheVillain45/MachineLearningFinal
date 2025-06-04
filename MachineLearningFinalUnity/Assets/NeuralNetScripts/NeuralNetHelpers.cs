@@ -55,6 +55,19 @@ public static class NeuralNetHelpers
         return A;
     }
 
+    public static float[] ReLUDeriv(float[] Z)
+    {
+        float[] dZ = new float[Z.Length];
+
+        for (int i = 0; i < Z.Length; i++)
+        {
+            float v = Z[i];
+            dZ[i] = (v > 0f) ? 1f : 0f;
+        }
+
+        return dZ;
+    }
+
     public static float[] SoftMax(float[] Z)
     {
         float maxVal = float.MinValue;
@@ -89,5 +102,26 @@ public static class NeuralNetHelpers
             }
         }
         return highestNum;
+    }
+
+    public static float[,] SetRandWeights(int input, int layerHeight)
+    {
+        Random random = new Random();
+        float[,] randWeights = new float[layerHeight, input];
+
+        for (int i = 0; i < layerHeight; i++)
+        {
+            for (int j = 0; j < input; j++)
+            {
+                randWeights[i, j] = (float)random.NextDouble();
+            }
+        }
+
+        return randWeights;
+    }
+
+    public static float[,] SetZeroBias(int layerHeight)
+    {
+        return new float[layerHeight, 1];
     }
 }

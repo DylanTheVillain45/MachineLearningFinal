@@ -5,14 +5,22 @@ public class TileManager : MonoBehaviour
 {
     public int X, Y;
     public float alphaVal;
+    bool isOn = false;
+    public int distMult = 2;
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && isOn == false)
         {
             Highlight(this.gameObject, 1);
             HighlightAdjacents();
+            isOn = true;
         }
+    }
+
+    void OnMouseExit()
+    {
+        isOn = false;
     }
 
     void HighlightAdjacents()
@@ -41,7 +49,7 @@ public class TileManager : MonoBehaviour
         {
             if (tile.GetComponent<TileManager>().alphaVal < 1)
             {
-                float val = UnityEngine.Random.Range(0.8f, 1f) / (dist * dist * dist * 4);
+                float val = UnityEngine.Random.Range(0.8f, 1f) / (dist * dist * distMult);
                 float newAlpha = tile.GetComponent<TileManager>().alphaVal + val > 1 ? 1 : tile.GetComponent<TileManager>().alphaVal + val;
                 Highlight(tile, newAlpha);
             }
